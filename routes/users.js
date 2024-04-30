@@ -41,19 +41,26 @@ router.get("/:email", (req, res) => {
 
 // POST request: Create a new user
 router.post("/", (req, res) => {
-    // Copy the code here
-    res.send("Yet to be implemented"); //This line is to be replaced with actual return value
+    firstName = req.params.firstName;
+    lastName = req.params.lastName;
+    email = req.params.email;
+    DOB = req.params.DOB;
+
+    try {
+        users.push({ firstName, lastName, email, DOB });
+        res.send(`User: ${firstName} added successfully`);
+    } catch (err) {
+        res.status(400).send("Error in adding user");
+    }
 });
 
 // PUT request: Update the details of a user by email ID
 router.put("/:email", (req, res) => {
-    // Copy the code here
     res.send("Yet to be implemented"); //This line is to be replaced with actual return value
 });
 
 // DELETE request: Delete a user by email ID
 router.delete("/:email", (req, res) => {
-    // Copy the code here
     res.send("Yet to be implemented"); //This line is to be replaced with actual return value
 });
 
