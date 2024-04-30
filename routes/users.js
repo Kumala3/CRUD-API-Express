@@ -24,14 +24,19 @@ let users = [
 
 // GET request: Retrieve all users
 router.get("/", (req, res) => {
-    // Copy the code here
-    res.send("Yet to be implemented"); //This line is to be replaced with actual return value
+    res.send(users); // This line is to be replaced with actual return value
 });
 
 // GET by specific ID request: Retrieve a single user with email ID
 router.get("/:email", (req, res) => {
-    // Copy the code here
-    res.send("Yet to be implemented"); //This line is to be replaced with actual return value
+    email = req.params.email;
+    user = users.find(user => user.email === email);
+
+    if (user) {
+        res.send(user);
+    } else {
+        res.status(404).send("User not found");
+    }
 });
 
 // POST request: Create a new user
