@@ -41,16 +41,31 @@ router.get("/:email", (req, res) => {
 
 // POST request: Create a new user
 router.post("/", (req, res) => {
-    firstName = req.params.firstName;
-    lastName = req.params.lastName;
-    email = req.params.email;
-    DOB = req.params.DOB;
+    const newUser = {
+        firstName: req.query.firstName,
+        lastName: req.query.lastName,
+        email: req.query.email,
+        DOB: req.query.DOB,
+    };
 
     try {
-        users.push({ firstName, lastName, email, DOB });
-        res.send(`User: ${firstName} added successfully`);
+        if (
+            !newUser.firstName ||
+            !newUser.lastName ||
+            !newUser.email ||
+            !newUser.DOB
+        ) {
+            throw new Error("All fields are required");
+        }
+
+        if (users.find(user => user.email === newUser.email)) {
+            throw new Error("User already exists");
+        }
+
+        users.push(newUser);
+        res.send(`User: ${newUser.firstName} added successfully`);
     } catch (err) {
-        res.status(400).send("Error in adding user");
+        res.status(400).send(err.message);
     }
 });
 
