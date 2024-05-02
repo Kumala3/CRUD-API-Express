@@ -96,7 +96,9 @@ router.put("/:email", (req, res) => {
         users = users.filter(user => user.email != email);
         users.push(filtered_user);
 
-        res.send(`User with the email: ${email} has successfully updated their DOB`);
+        res.send(
+            `User with the email: ${email} has successfully updated their DOB`
+        );
     } else {
         res.status(404).send("User not found");
     }
@@ -104,7 +106,19 @@ router.put("/:email", (req, res) => {
 
 // DELETE request: Delete a user by email ID
 router.delete("/:email", (req, res) => {
-    res.send("Yet to be implemented"); // This line is to be replaced with actual return value
+    const email = req.params.email;
+
+    let index = users.findIndex(user => user.email.toLowerCase() === email);
+
+    if (index !== -1) {
+        let deletedUser = users.splice(index, 1);
+        res.send({
+            message: `User with the email: ${email} has been deleted`,
+            statusCode: 204,
+        });
+    } else {
+        res.status(404).send("User not found");
+    }
 });
 
 module.exports = router;
