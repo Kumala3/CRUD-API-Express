@@ -71,12 +71,40 @@ router.post("/", (req, res) => {
 
 // PUT request: Update the details of a user by email ID
 router.put("/:email", (req, res) => {
-    res.send("Yet to be implemented"); //This line is to be replaced with actual return value
+    const email = req.params.email;
+
+    let filtered_users = users.filter(user => user.email === email);
+
+    if (filtered_users.length > 0) {
+        let filtered_user = filtered_users[0];
+        let DOB = req.query.DOB;
+        let firstName = req.query.firstName;
+        let lastName = req.query.lastName;
+
+        if (DOB) {
+            filtered_user.DOB = DOB;
+        }
+
+        if (firstName) {
+            filtered_user.firstName = firstName;
+        }
+
+        if (lastName) {
+            filtered_user.lastName = lastName;
+        }
+
+        users = users.filter(user => user.email != email);
+        users.push(filtered_user);
+
+        res.send(`User with the email: ${email} has successfully updated their DOB`);
+    } else {
+        res.status(404).send("User not found");
+    }
 });
 
 // DELETE request: Delete a user by email ID
 router.delete("/:email", (req, res) => {
-    res.send("Yet to be implemented"); //This line is to be replaced with actual return value
+    res.send("Yet to be implemented"); // This line is to be replaced with actual return value
 });
 
 module.exports = router;
